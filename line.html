@@ -1,0 +1,113 @@
+<!--
+ * @Description: 
+ * @Author: Ray
+ * @Date: 2021-07-23 15:55:55
+ * @LastEditTime: 2021-07-23 17:34:57
+ * @LastEditors: Ray
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>画线</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      canvas {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body></body>
+  <script src="js/three.js"></script>
+  <script src="js/OrbitControls.js"></script>
+  <!-- 创建场景 -->
+  <script>
+    //场景
+    var scene = new THREE.Scene()
+    /*
+      相机
+      PerspectiveCamera 透视摄像机
+      params1:视野角度(FOV);
+      params2:长宽比;
+      params3:远剪切面;
+      params4:近剪切面;
+    */
+    var camera = new THREE.PerspectiveCamera(
+      70,
+      window.innerWidth / window.innerHeight,
+      1,
+      500
+    )
+    camera.position.set(50, 175, 175)
+    camera.lookAt(0, 0, 0)
+
+    /*
+      渲染器
+      WebGLRenderer渲染
+      setSize 设置宽,高,分辨率
+    */
+    var renderer = new THREE.WebGLRenderer()
+    renderer.setSize(window.innerWidth, window.innerHeight)
+    document.body.appendChild(renderer.domElement)
+    /*
+        BoxGeometry 立方体对象
+        材质:
+          MeshBasicMaterial
+          LineBasicMaterial
+          LineDashedMaterial
+
+        Mesh 网格
+      */
+    // var geometry = new THREE.BoxGeometry(1, 1, 1)
+    var geometryz = new THREE.BufferGeometry()
+    var geometry2y = new THREE.BufferGeometry()
+    var geometry3x = new THREE.BufferGeometry()
+    const pointsArrayz = new Array()
+    pointsArrayz.push(new THREE.Vector3(0, 0, 0))
+    pointsArrayz.push(new THREE.Vector3(0, 0, 200))
+    geometryz.setFromPoints(pointsArrayz)
+
+    const pointsArray2y = new Array()
+    pointsArray2y.push(new THREE.Vector3(0, 0, 0))
+    pointsArray2y.push(new THREE.Vector3(0, 200, 0))
+    geometry2y.setFromPoints(pointsArray2y)
+
+    const pointsArray3x = new Array()
+    pointsArray3x.push(new THREE.Vector3(200, 0, 0))
+    pointsArray3x.push(new THREE.Vector3(0, 0, 0))
+    geometry3x.setFromPoints(pointsArray3x)
+    //create a blue LineBasicMaterial
+    var materialx = new THREE.LineBasicMaterial({ color: 'white' })
+    var materialy = new THREE.LineBasicMaterial({ color: 'yellow' })
+    var materialz = new THREE.LineBasicMaterial({ color: 'blue' })
+    var line = new THREE.Line(geometryz, materialz)
+    var line2 = new THREE.Line(geometry2y, materialy)
+    var line3 = new THREE.Line(geometry3x, materialx)
+    scene.add(line, line2, line3)
+  </script>
+  <!-- 渲染场景 -->
+  <script>
+    renderer.render(scene, camera)
+    // function animate() {
+    //   requestAnimationFrame(animate)
+    //   line.rotation.y += 0.1
+    //   line2.rotation.y += 0.1
+    //   line3.rotation.y += 0.1
+    //   renderer.render(scene, camera)
+    // }
+    // animate()
+    function render() {
+      renderer.render(scene, camera)
+    }
+
+    var controls = new THREE.OrbitControls(camera, renderer.domElement)
+    //监听鼠标事件，触发渲染函数，更新canvas画布渲染效果
+    controls.addEventListener('change', render)
+    // controls.enablePan = false //禁止右键拖拽
+    // controls.enableZoom = false //禁止缩放
+    // controls.enableRotate = false //禁止旋转
+  </script>
+</html>
